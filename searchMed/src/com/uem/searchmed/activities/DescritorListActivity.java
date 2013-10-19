@@ -1,15 +1,13 @@
 package com.uem.searchmed.activities;
 
-import com.uem.searchmed.ConectHttp;
-import com.uem.searchmed.R;
-import com.uem.searchmed.R.layout;
-import com.uem.searchmed.R.menu;
-import com.uem.searchmed.app.Descritor;
-import com.uem.searchmed.app.DescritorRepository;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -23,14 +21,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
+import com.uem.searchmed.ConectHttp;
+import com.uem.searchmed.R;
+import com.uem.searchmed.app.Descritor;
+import com.uem.searchmed.app.DescritorRepository;
 
 public class DescritorListActivity extends ListActivity {
 
@@ -54,12 +48,11 @@ public class DescritorListActivity extends ListActivity {
 			adapter = new ArrayAdapter<Descritor>(this, android.R.layout.simple_list_item_1, descritores);
 			setListAdapter(adapter);
 			palavraChave = bundle.getString("seachWord");
-			
-			// TODO Criar consulta usando o cache semantico na classe DescritorRepository 
+
 			DescritorRepository repositorio = new DescritorRepository(this);
-			List<Descritor> descritoresExistentes = repositorio.listar();
-			
-			Log.d(TAG, "Descritores existentes: "+descritoresExistentes.toString());
+			List<Descritor> descritoresExistentes = repositorio.findWithCacheSemantic(palavraChave);
+
+			Log.d(TAG, "Descritores existentes: " + descritoresExistentes.toString());
 			descritores.addAll(descritoresExistentes);
 		}
 		handleList();
@@ -76,8 +69,8 @@ public class DescritorListActivity extends ListActivity {
 		Intent i = new Intent(this, SearchActivity.class);
 		startActivity(i);
 	}
-	
-	public void pesquisaWebService(View view){
+
+	public void pesquisaWebService(View view) {
 		try {
 			new Executa().execute(palavraChave);
 		} catch (Exception e) {
@@ -86,25 +79,20 @@ public class DescritorListActivity extends ListActivity {
 	}
 
 	public void handleList() {
-		getListView().setOnItemClickListener(
-				new AdapterView.OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> lista, View view, int i, long l) {
-						Descritor d = (Descritor) lista.getItemAtPosition(i);
-						Log.d(TAG, "Descritor clicado: " + d);
-						showDescritor(d);
-					}
-				});
+		getListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> lista, View view, int i, long l) {
+				Descritor d = (Descritor) lista.getItemAtPosition(i);
+				Log.d(TAG, "Descritor clicado: " + d);
+				showDescritor(d);
+			}
+		});
 	}
 
 	public void showDescritor(Descritor descritor) {
 		Intent i = new Intent(this, DescritorShowActivity.class);
-		
-		// Aqui salva o descritor no BD
-		// TODO Verifcar antes de salvar e add no numAcesso
 		descritor.numAcesso = ++descritor.numAcesso;
 		new DescritorRepository(this).salvar(descritor);
-		
 		i.putExtra("descritor", descritor);
 		startActivity(i);
 	}
@@ -121,7 +109,6 @@ public class DescritorListActivity extends ListActivity {
 	}
 
 	class Executa extends AsyncTask<Object, Object, Object> {
-
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -130,10 +117,8 @@ public class DescritorListActivity extends ListActivity {
 
 		@Override
 		protected ArrayList doInBackground(Object... objects) {
-			String url = "http://decs.bvsalud.org/cgi-bin/mx/cgi=@vmx/decs/?words="+ palavraChave;
-
+			String url = "http://decs.bvsalud.org/cgi-bin/mx/cgi=@vmx/decs/?words=" + palavraChave;
 			ConectHttp connect = new ConectHttp(url);
-
 			try {
 				descritores.clear();
 				descritores.addAll(connect.executar());
@@ -153,7 +138,7 @@ public class DescritorListActivity extends ListActivity {
 		protected void onPostExecute(Object o) {
 			super.onPostExecute(o);
 			dismissDialog(999);
-			Log.d(TAG, "Descritores web-service: "+descritores.toString());
+			Log.d(TAG, "Descritores web-service: " + descritores.toString());
 			adapter = new ArrayAdapter<Descritor>(DescritorListActivity.this, android.R.layout.simple_list_item_1, descritores);
 			setListAdapter(adapter);
 		}

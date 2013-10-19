@@ -2,8 +2,6 @@ package com.uem.searchmed.app;
 
 import java.io.Serializable;
 
-import android.util.Log;
-
 public class Descritor implements Serializable {
 
 	public static final long serialVersionUID = 1L;
@@ -11,7 +9,7 @@ public class Descritor implements Serializable {
 	Long id;
 	public String idDecs = "";
 	public String descritor = "";
-	public String definicao = ""; 			// clob - lenght=1024
+	public String definicao = ""; // clob - lenght=1024
 	public String sinonimos = "";
 	public String termosRelacionados = ""; // clob - lenght=1024
 	public String indicesAnotacoes = "";
@@ -25,9 +23,7 @@ public class Descritor implements Serializable {
 		this.idDecs = idDecs;
 	}
 
-	public Descritor(Long id, String idDecs, String descritor,
-			String definicao, String sinonimos, String termosRelacionados,
-			String indicesAnotacoes, String uriFile, Integer numAcesso) {
+	public Descritor(Long id, String idDecs, String descritor, String definicao, String sinonimos, String termosRelacionados, String indicesAnotacoes, String uriFile, Integer numAcesso) {
 		this.id = id;
 		this.idDecs = idDecs;
 		this.descritor = descritor;
@@ -58,9 +54,9 @@ public class Descritor implements Serializable {
 	public void setIndicesAnotacoes(String indicesAnotacoes) {
 		this.indicesAnotacoes += addString(this.indicesAnotacoes, indicesAnotacoes);
 	}
-	
+
 	private String addString(String strTarget, String strFinal) {
-		return strTarget == "" ? strFinal : ", "+strFinal;
+		return strTarget == "" ? strFinal : ", " + strFinal;
 	}
 
 	@Override
