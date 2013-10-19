@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Search Med</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Welcome to Search Med!</string>
+    <string name="search">Pesquisar</string>
+    <string name="welcome">Bem Vindo ao Search Med!</string>
+    <string name="limpar">Limpar</string>
+    <string name="label_bt_novo">voltar</string>
+    <string name="descritor">Descritor</string>
+    <string name="sinonimos">Sinônimos</string>
+    <string name="definicao">Definição</string>
+    <string name="arquivo">Arquivo</string>
+    <string name="title_activity_descritor_list">DescritorListActivity</string>
+    <string name="title_activity_descritor_show">DescritorShowActivity</string>
+    <string name="pesquisar_web">Pesquisar na Web</string>
+
+</resources>
