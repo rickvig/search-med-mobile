@@ -9,18 +9,17 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 
-
 public enum TabelaDescritor {
 
-	_ID("id", "integer", "primary key autoincrement"),
-	ID_DECS("idDecs", "text", "not null"),
-	TERMOS_RELACIONADOS("termosRelacionados", "text", ""), 
-	DEFINICAO("definicao", "text", ""),
-	DESCRITOR("deescritor", "text", ""), 
-	SINONIMOS("sinonimos", "text", ""), 
-	INDICES_ANOTACOES("indicesAnotacoes", "text", ""), 
-	URI_FILE("uriFile", "text", ""), 
-	NUM_ACESSO("numAcesso", "text", "");
+	_ID("id", "integer", "primary key autoincrement")
+	, ID_DECS("idDecs", "text", "not null")
+	, TERMOS_RELACIONADOS("termosRelacionados", "text", "")
+	, DEFINICAO("definicao", "text", "")
+	, DESCRITOR("descritor", "text", "")
+	, SINONIMOS("sinonimos", "text", "")
+	, INDICES_ANOTACOES("indicesAnotacoes", "text", "")
+	, URI_FILE("uriFile", "text", "")
+	, NUM_ACESSO("numAcesso", "text", "");
 
 	public static String nomeTabela = "descritor";
 
