@@ -1,80 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <LinearLayout
-            android:id="@+id/linear"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/button">
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/button"
+        android:orientation="vertical" >
 
         <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/descritor"
-                android:id="@+id/textView"
-                android:textStyle="bold"
-                android:textSize="20dp"/>
+            android:id="@+id/textView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/descritor"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/descritorNome"
-                android:layout_gravity="center"
-                android:textStyle="italic"/>
+            android:id="@+id/descritorNome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="New Text"
+            android:textStyle="italic" />
 
         <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sinonimos"
-                android:id="@+id/textView2"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_marginTop="10dp"/>
+            android:id="@+id/textView2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/sinonimos"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/sinonimos"
-                android:layout_gravity="center|left"/>
+            android:id="@+id/sinonimos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:text="New Text" />
 
         <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/definicao"
-                android:id="@+id/textView2"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:layout_marginTop="10dp"/>
+            android:id="@+id/textView2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/definicao"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
         <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="New Text"
-                android:id="@+id/definicao"
-                android:layout_gravity="center|left"/>
+            android:id="@+id/definicao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|left"
+            android:text="New Text" />
 
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="50dp"
+            android:text="Data de ultimo acesso"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/data_ultimo_acesso"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="TextView" />
 
     </LinearLayout>
 
     <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/arquivo"
-            android:id="@+id/button"
-            android:gravity="center"
-
-            android:layout_gravity="right|center_vertical"
-
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
-
+        android:id="@+id/button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="right|center_vertical"
+        android:layout_marginBottom="5dp"
+        android:gravity="center"
+        android:onClick="buscaArquivo"
+        android:text="@string/arquivo" />
 
 </RelativeLayout>

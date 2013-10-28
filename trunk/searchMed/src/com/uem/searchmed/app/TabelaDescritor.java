@@ -18,8 +18,9 @@ public enum TabelaDescritor {
 	, DESCRITOR("descritor", "text", "")
 	, SINONIMOS("sinonimos", "text", "")
 	, INDICES_ANOTACOES("indicesAnotacoes", "text", "")
-	, URI_FILE("uriFile", "text", "")
-	, NUM_ACESSO("numAcesso", "text", "");
+	, NUM_ACESSO("numAcesso", "interger", "")
+	, DATA_ULTIMO_ACESSO("dataUltimoAcesso", "interger", "")
+	, ARQUIVO_ID("arquivoId", "integer", "");
 
 	public static String nomeTabela = "descritor";
 

@@ -1,6 +1,7 @@
 package com.uem.searchmed.app;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class Descritor implements Serializable {
 
@@ -13,9 +14,10 @@ public class Descritor implements Serializable {
 	public String sinonimos = "";
 	public String termosRelacionados = ""; // clob - lenght=1024
 	public String indicesAnotacoes = "";
-	public String uriFile = "";
 	public Integer numAcesso = 1;
-
+	public Date dataUltimoAcesso;
+	public Arquivo arquivo;
+	
 	public Descritor() {
 	}
 
@@ -23,7 +25,10 @@ public class Descritor implements Serializable {
 		this.idDecs = idDecs;
 	}
 
-	public Descritor(Long id, String idDecs, String descritor, String definicao, String sinonimos, String termosRelacionados, String indicesAnotacoes, String uriFile, Integer numAcesso) {
+	public Descritor(Long id, String idDecs, String descritor
+			, String definicao, String sinonimos, String termosRelacionados
+			, String indicesAnotacoes, Integer numAcesso
+			, Date dataUltimaAlteracao) {
 		this.id = id;
 		this.idDecs = idDecs;
 		this.descritor = descritor;
@@ -31,8 +36,32 @@ public class Descritor implements Serializable {
 		this.sinonimos = sinonimos;
 		this.termosRelacionados = termosRelacionados;
 		this.indicesAnotacoes = indicesAnotacoes;
-		this.uriFile = uriFile;
 		this.numAcesso = numAcesso;
+		this.dataUltimoAcesso = dataUltimaAlteracao;
+	}
+	
+	public Arquivo getArquivo() {
+		return arquivo;
+	}
+
+	public void setArquivo(Arquivo arquivo) {
+		this.arquivo = arquivo;
+	}
+
+	public Integer getNumAcesso() {
+		return numAcesso;
+	}
+
+	public void setNumAcesso() {
+		this.numAcesso = ++numAcesso;
+	}
+
+	public Date getDataUltimoAcesso() {
+		return dataUltimoAcesso;
+	}
+
+	public void setDataUltimoAcesso(Date dataUltimoAcesso) {
+		this.dataUltimoAcesso = dataUltimoAcesso;
 	}
 
 	public void setDescritor(String descritor) {
@@ -58,7 +87,7 @@ public class Descritor implements Serializable {
 	private String addString(String strTarget, String strFinal) {
 		return strTarget == "" ? strFinal : ", " + strFinal;
 	}
-
+	
 	@Override
 	public String toString() {
 		return descritor;
