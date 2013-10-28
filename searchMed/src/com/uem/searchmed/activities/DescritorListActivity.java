@@ -3,6 +3,7 @@ package com.uem.searchmed.activities;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,6 +16,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -60,7 +62,6 @@ public class DescritorListActivity extends ListActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.descritor_list, menu);
 		return true;
 	}
@@ -91,8 +92,17 @@ public class DescritorListActivity extends ListActivity {
 
 	public void showDescritor(Descritor descritor) {
 		Intent i = new Intent(this, DescritorShowActivity.class);
-		descritor.numAcesso = ++descritor.numAcesso;
-		new DescritorRepository(this).salvar(descritor);
+		
+		if(descritor.dataUltimoAcesso != null) {
+			i.putExtra("dataUltimoAcessoExtra", new DateFormat().format("dd/MM/yyyy HH:mm", descritor.dataUltimoAcesso));
+		} else{
+			i.putExtra("dataUltimoAcessoExtra", new DateFormat().format("dd/MM/yyyy HH:mm", new Date()));
+		}
+		
+		descritor.setNumAcesso();
+		descritor.setDataUltimoAcesso(new Date());
+		
+		new DescritorRepository(this).processaPoliticaCS(descritor);
 		i.putExtra("descritor", descritor);
 		startActivity(i);
 	}

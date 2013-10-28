@@ -12,8 +12,8 @@
     <string name="sinonimos">Sinônimos</string>
     <string name="definicao">Definição</string>
     <string name="arquivo">Arquivo</string>
-    <string name="title_activity_descritor_list">DescritorListActivity</string>
-    <string name="title_activity_descritor_show">DescritorShowActivity</string>
+    <string name="title_activity_descritor_list">Lista de Descritores</string>
+    <string name="title_activity_descritor_show">Descritor</string>
     <string name="pesquisar_web">Pesquisar na Web</string>
 
 </resources>
