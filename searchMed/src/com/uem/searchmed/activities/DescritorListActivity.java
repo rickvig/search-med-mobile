@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.uem.searchmed.ConectHttp;
 import com.uem.searchmed.R;
@@ -76,6 +77,7 @@ public class DescritorListActivity extends ListActivity {
 			new Executa().execute(palavraChave);
 		} catch (Exception e) {
 			e.printStackTrace();
+			Toast.makeText(this, R.string.fail_on_get_descritor, Toast.LENGTH_LONG).show();
 		}
 	}
 
@@ -132,13 +134,7 @@ public class DescritorListActivity extends ListActivity {
 			try {
 				descritores.clear();
 				descritores.addAll(connect.executar());
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ParserConfigurationException e) {
-				e.printStackTrace();
-			} catch (SAXException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return null;

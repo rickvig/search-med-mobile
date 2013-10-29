@@ -71,7 +71,7 @@ public class ConectHttpSearchServer {
 		if(!error){
 			JSONObject jsonArquivo = jsonObject.getJSONObject("arquivo");
 			
-			Arquivo arquivo = new Arquivo(jsonArquivo.getString("contentType"), jsonArquivo.getString("nomeOriginal"), jsonArquivo.getString("tamanhoArquivo"));
+			Arquivo arquivo = new Arquivo(jsonArquivo.getString("contentType"), jsonArquivo.getString("nomeOriginal"), jsonArquivo.getInt("tamanhoArquivo"));
 			Log.d(TAG, "arquivo: "+arquivo);
 			
 			Log.d(TAG, "ARRAY STR: \n"+jsonObject.getJSONArray("filebytes").join(","));

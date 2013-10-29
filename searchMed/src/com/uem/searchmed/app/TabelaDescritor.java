@@ -56,7 +56,9 @@ public enum TabelaDescritor {
 	public static String createTable() {
 		String campos = Joiner.on(", ").join(values());
 		Log.d("campos", campos);
-		return String.format("CREATE TABLE IF NOT EXISTS %s (%s)", nomeTabela, campos);
+		// FOREIGN KEY (id_pessoa) REFERENCES tabela_pessoa (id) ON DELETE CASCADE );
+		return String.format("CREATE TABLE IF NOT EXISTS %s (%s , FOREIGN KEY (%s) REFERENCES %s (%s) ON DELETE CASCADE );"
+				, nomeTabela, campos, ARQUIVO_ID.getCampo(), TabelaArquivo.nomeTabela, TabelaArquivo._ID.getCampo());
 	}
 
 	public static String[] getAllColumns() {

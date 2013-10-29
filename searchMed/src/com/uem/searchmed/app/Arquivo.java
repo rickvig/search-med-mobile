@@ -1,23 +1,39 @@
 package com.uem.searchmed.app;
 
-public class Arquivo {
-	
+import java.io.Serializable;
+
+public class Arquivo implements Serializable {
+
+	public static final long serialVersionUID = 1L;
+
+	private Long id;
 	private String contentType = "";
 	private String nomeOriginal = "";
-	private String tamanhoArquivo = "";
+	private Integer tamanhoArquivo = 0;
 	private String uriFile = "";
 	
-	public Arquivo(){
-		
+	public Arquivo(String contentType, String nomeOriginal, Integer tamanhoArquivo){
+		this.contentType = contentType;
+		this.nomeOriginal = nomeOriginal;
+		this.tamanhoArquivo = tamanhoArquivo;		
 	}
 	
-	public Arquivo(String contentType, String nomeOriginal, String tamanhoArquivo) {
+	public Arquivo(Long id, String contentType, String nomeOriginal, Integer tamanhoArquivo, String uriFile) {
 		super();
+		this.id = id;
 		this.contentType = contentType;
 		this.nomeOriginal = nomeOriginal;
 		this.tamanhoArquivo = tamanhoArquivo;
+		this.uriFile = uriFile;
 	}
 	
+
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getUriFile() {
 		return uriFile;
 	}
@@ -36,10 +52,10 @@ public class Arquivo {
 	public void setNomeOriginal(String nomeOriginal) {
 		this.nomeOriginal = nomeOriginal;
 	}
-	public String getTamanhoArquivo() {
+	public Integer getTamanhoArquivo() {
 		return tamanhoArquivo;
 	}
-	public void setTamanhoArquivo(String tamanhoArquivo) {
+	public void setTamanhoArquivo(Integer tamanhoArquivo) {
 		this.tamanhoArquivo = tamanhoArquivo;
 	}
 
@@ -47,8 +63,5 @@ public class Arquivo {
 	public String toString() {
 		return "Arquivo [contentType=" + contentType + ", nomeOriginal=" + nomeOriginal + ", tamanhoArquivo=" + tamanhoArquivo + ", uriFile=" + uriFile + "]";
 	}
-	
-	
-	
 
 }

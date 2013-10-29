@@ -20,10 +20,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.uem.searchmed.ConectHttpSearchServer;
 import com.uem.searchmed.R;
 import com.uem.searchmed.app.Arquivo;
+import com.uem.searchmed.app.ArquivoRepository;
 import com.uem.searchmed.app.Descritor;
 
 public class DescritorShowActivity extends Activity {
@@ -77,7 +79,8 @@ public class DescritorShowActivity extends Activity {
 				Log.d(TAG, "chamou o file pelo divice, uriFile: "+descritor.arquivo.getUriFile());
 				showFile(file);
 			} catch (Exception e) {
-				// TODO colocar o Toast nas exceptions
+				e.printStackTrace();
+				Toast.makeText(this, R.string.fail_on_get_file, Toast.LENGTH_LONG).show();
 			}
 		} else {
 			// busca no servidor
@@ -85,6 +88,7 @@ public class DescritorShowActivity extends Activity {
 				new Executa().execute();
 			} catch (Exception e) {
 				e.printStackTrace();
+				Toast.makeText(this, R.string.fail_on_get_file, Toast.LENGTH_LONG).show();
 			}
 		}
 	}
@@ -116,13 +120,13 @@ public class DescritorShowActivity extends Activity {
 			//String url = "http://10.253.28.105:8080/searchMedServer/arquivo/getArquivo/" + id + ".json";
 			ConectHttpSearchServer connect = new ConectHttpSearchServer(url);
 			try {
-				//arquivo = connect.executar();
-				descritor.arquivo = connect.executar(); 
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (JSONException e) {
+				Arquivo arquivo = connect.executar();
+				if(arquivo != null){
+					ArquivoRepository arquivoRepository = new ArquivoRepository(DescritorShowActivity.this);
+					arquivoRepository.salvar(arquivo);
+					descritor.arquivo = arquivo;
+				} 
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return null;
@@ -131,15 +135,14 @@ public class DescritorShowActivity extends Activity {
 		@Override
 		protected void onPostExecute(Object o) {
 			super.onPostExecute(o);
-			// mostra o arquivo
-			File file = new File(descritor.arquivo.getUriFile());
-			
-			// TODO não precisa mais desse campo
-			//descritor.setUriFile(uriFile);
-			
-			Log.d(TAG, "chamou o file pelo web-service, uriFile: "+descritor.arquivo.getUriFile());
-			showFile(file);
-
+			try {
+				// mostra o arquivo
+				File file = new File(descritor.arquivo.getUriFile());
+				Log.d(TAG, "chamou o file pelo web-service, uriFile: "+descritor.arquivo.getUriFile());
+				showFile(file);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			dismissDialog(999);
 		}
 	}
