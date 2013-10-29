@@ -28,7 +28,8 @@ public class Descritor implements Serializable {
 	public Descritor(Long id, String idDecs, String descritor
 			, String definicao, String sinonimos, String termosRelacionados
 			, String indicesAnotacoes, Integer numAcesso
-			, Date dataUltimaAlteracao) {
+			, Date dataUltimaAlteracao
+			, Arquivo arquivo) {
 		this.id = id;
 		this.idDecs = idDecs;
 		this.descritor = descritor;
@@ -38,6 +39,7 @@ public class Descritor implements Serializable {
 		this.indicesAnotacoes = indicesAnotacoes;
 		this.numAcesso = numAcesso;
 		this.dataUltimoAcesso = dataUltimaAlteracao;
+		this.arquivo = arquivo;
 	}
 	
 	public Arquivo getArquivo() {

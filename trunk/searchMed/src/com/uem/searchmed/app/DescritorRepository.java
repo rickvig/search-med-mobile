@@ -26,10 +26,17 @@ public class DescritorRepository {
 		this.database = app.getDatabase();
 	}
 
-	public void salvar(Descritor descritor) {
+	public void salve(Descritor descritor) {
 		if (findByIdDecs(descritor.idDecs) == null) {
 			database.insert(TabelaDescritor.nomeTabela, "", getValues(descritor));
+		} else{
+			// TODO avaliar melhor se chama o update
+			// update(descritor);
 		}
+	}
+	
+	public void update(Descritor descritor) {
+		database.update(TabelaDescritor.nomeTabela, getValues(descritor), TabelaDescritor._ID.getCampo() + " = ?", new String[] { Long.toString(descritor.id) });
 	}
 
 	/**
@@ -49,10 +56,10 @@ public class DescritorRepository {
 		Log.d(TAG, "COUNT_MAX_CS: "+COUNT_MAX_CS+" - count BD: "+count);
 		
 		if (count <= COUNT_MAX_CS) {
-			salvar(descritor);
+			salve(descritor);
 		} else {
 			removeDescritorComMenosAcessoMaisAntigo();
-			salvar(descritor);
+			salve(descritor);
 		}
 	}
 
@@ -63,6 +70,10 @@ public class DescritorRepository {
 	 * @author henrique
 	 */
 	private void removeDescritorComMenosAcessoMaisAntigo() {
+		
+		// TODO Quando remover um descritor remover tbm o 
+		// registro do arquivo no BD e deletar o file do device
+		
 		String query = "select * from " + TabelaDescritor.nomeTabela +
 				" where " + TabelaDescritor.NUM_ACESSO.getCampo() + " = " +
 				" (select min(d."+TabelaDescritor.NUM_ACESSO.getCampo()+") from "+TabelaDescritor.nomeTabela+" d) " +
@@ -127,8 +138,11 @@ public class DescritorRepository {
 		String indicesAnotacoes = cursor.getString(cursor.getColumnIndex(TabelaDescritor.INDICES_ANOTACOES.getCampo()));
 		Integer numAcesso = cursor.getInt(cursor.getColumnIndex(TabelaDescritor.NUM_ACESSO.getCampo()));
 		Date dataUltimoAcesso = new Date(cursor.getLong(cursor.getColumnIndex(TabelaDescritor.DATA_ULTIMO_ACESSO.getCampo())));
+		
+		Long arquivoId = cursor.getLong(cursor.getColumnIndex(TabelaDescritor.ARQUIVO_ID.getCampo()));
+		Arquivo arquivo = new ArquivoRepository(ctx).findById(arquivoId);
 
-		return new Descritor(id, idDecs, descritor, definicao, sinonimos, termosRelacionados, indicesAnotacoes, numAcesso, dataUltimoAcesso);
+		return new Descritor(id, idDecs, descritor, definicao, sinonimos, termosRelacionados, indicesAnotacoes, numAcesso, dataUltimoAcesso, arquivo);
 	}
 
 	private ContentValues getValues(Descritor descritor) {
@@ -142,6 +156,13 @@ public class DescritorRepository {
 		values.put(TabelaDescritor.INDICES_ANOTACOES.getCampo(), descritor.indicesAnotacoes);
 		values.put(TabelaDescritor.NUM_ACESSO.getCampo(), descritor.numAcesso);
 		values.put(TabelaDescritor.DATA_ULTIMO_ACESSO.getCampo(), new Date().getTime());
+		
+		// TODO verificar como checar se já existe o arquivo ou não ?????
+		if(descritor.arquivo.getId() == 0L){
+			values.put(TabelaDescritor.ARQUIVO_ID.getCampo(), descritor.arquivo.getId());
+		} else{
+			values.put(TabelaDescritor.ARQUIVO_ID.getCampo(), 0L );
+		}
 		return values;
 	}
 	

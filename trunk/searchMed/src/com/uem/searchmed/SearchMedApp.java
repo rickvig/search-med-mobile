@@ -1,5 +1,6 @@
 package com.uem.searchmed;
 
+import com.uem.searchmed.app.TabelaArquivo;
 import com.uem.searchmed.app.TabelaDescritor;
 
 import android.app.Application;
@@ -9,6 +10,7 @@ import android.util.Log;
 
 public class SearchMedApp extends Application {
 
+	private static final String TAG = "SEARCH_MED_APP";
     private static final String NOME_BANCO = "search_med.db";
     SQLiteDatabase database;
 
@@ -28,8 +30,12 @@ public class SearchMedApp extends Application {
     }
 
     private void criarTabelas(){
-        Log.d("App", "criando tabelas");
-        Log.d("table contato", TabelaDescritor.createTable());
+        Log.d(TAG, "criando tabelas");
+        
+        Log.d(TAG, "table arquivo"+TabelaArquivo.nomeTabela);
+        database.execSQL(TabelaArquivo.createTable());
+        
+        Log.d(TAG, "table descrito"+TabelaDescritor.nomeTabela);
         database.execSQL(TabelaDescritor.createTable());
     }
 

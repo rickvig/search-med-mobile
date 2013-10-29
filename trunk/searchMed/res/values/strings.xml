@@ -15,5 +15,8 @@
     <string name="title_activity_descritor_list">Lista de Descritores</string>
     <string name="title_activity_descritor_show">Descritor</string>
     <string name="pesquisar_web">Pesquisar na Web</string>
+    <string name="fail_on_get_file">Falha ao busar Arquivo.</string>
+    <string name="fail_on_get_descritor">Falha ao busar descritor.</string>
+    <string name="action_avaliar_descritor">Avaliar Descritor</string>
 
 </resources>
