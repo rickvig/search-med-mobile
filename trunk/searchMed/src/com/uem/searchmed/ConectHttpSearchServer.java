@@ -1,40 +1,24 @@
 package com.uem.searchmed;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
 import com.uem.searchmed.app.Arquivo;
-import com.uem.searchmed.app.Descritor;
 
 public class ConectHttpSearchServer {
 
@@ -77,15 +61,16 @@ public class ConectHttpSearchServer {
 			Log.d(TAG, "ARRAY STR: \n"+jsonObject.getJSONArray("filebytes").join(","));
 			
 			// TODO ARQUIVO ESTÁ CORROMPIDO
-			
+			// ERRO: 11-02 15:33:58.389: W/System.err(15572): java.lang.IllegalArgumentException: bad base-64
 			byte[] fileBytes = Base64.decode(jsonObject.getJSONArray("filebytes").join(","), Base64.DEFAULT);
 			Log.d(TAG, "jsonFileBytes: "+ fileBytes.toString());
 			
 			// salvando o arquivo
 			Log.d(TAG, "pasta local: "+ Environment.getExternalStorageDirectory().getAbsolutePath().toString());
-			arquivo.setUriFile(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + arquivo.getNomeOriginal());
+			String path = Environment.getExternalStorageDirectory().getAbsolutePath() + SearchMedApp.PATH_FILE_DAFAULT + "/";
+			arquivo.setUriFile(path + arquivo.getNomeOriginal());
 			
-			File arq = new File(Environment.getExternalStorageDirectory(), arquivo.getNomeOriginal());
+			File arq = new File(path, arquivo.getNomeOriginal());
 			FileOutputStream fos;
             fos = new FileOutputStream(arq);
              
