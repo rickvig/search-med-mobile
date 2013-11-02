@@ -94,4 +94,8 @@ public class Descritor implements Serializable {
 	public String toString() {
 		return descritor;
 	}
+	
+	public String toStringFull() {
+		return "Descritor [id=" + id + ", idDecs=" + idDecs + ", descritor=" + descritor + ", numAcesso=" + numAcesso + ", dataUltimoAcesso=" + dataUltimoAcesso + ", arquivo=" + arquivo + "]";
+	}
 }

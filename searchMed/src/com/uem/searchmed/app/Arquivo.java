@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Arquivo implements Serializable {
 
 	public static final long serialVersionUID = 1L;
-
+	
 	private Long id;
 	private String contentType = "";
 	private String nomeOriginal = "";
@@ -61,7 +61,9 @@ public class Arquivo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Arquivo [contentType=" + contentType + ", nomeOriginal=" + nomeOriginal + ", tamanhoArquivo=" + tamanhoArquivo + ", uriFile=" + uriFile + "]";
+		return "Arquivo [id=" + id + ", contentType=" + contentType + ", nomeOriginal=" + nomeOriginal + ", tamanhoArquivo=" + tamanhoArquivo + ", uriFile=" + uriFile + "]";
 	}
+
+
 
 }

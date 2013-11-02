@@ -8,7 +8,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.uem.searchmed.SearchMedApp;
@@ -27,16 +26,40 @@ public class DescritorRepository {
 	}
 
 	public void salve(Descritor descritor) {
+		Log.d(TAG, "salve() - descritor: "+descritor.toStringFull());
 		if (findByIdDecs(descritor.idDecs) == null) {
 			database.insert(TabelaDescritor.nomeTabela, "", getValues(descritor));
 		} else{
-			// TODO avaliar melhor se chama o update
-			// update(descritor);
+			update(descritor);
 		}
 	}
 	
 	public void update(Descritor descritor) {
+		Log.d(TAG, "update() - descritor: "+descritor.toStringFull());
 		database.update(TabelaDescritor.nomeTabela, getValues(descritor), TabelaDescritor._ID.getCampo() + " = ?", new String[] { Long.toString(descritor.id) });
+	}
+	
+	private void delete(Descritor descritor) {
+		Log.d(TAG, "delete() - descritor: "+descritor.toStringFull());
+		database.delete(TabelaDescritor.nomeTabela, TabelaDescritor._ID.getCampo() +" = ?", new String[] { descritor.id.toString() });
+	}
+	
+	public List<Descritor> listar() {
+		Log.d(TAG, "listar() - ");
+		Cursor cursor = database.query(TabelaDescritor.nomeTabela, TabelaDescritor.getAllColumns(), null, null, null, null, null);
+		return factoryListDescritores(cursor);
+	}
+
+	private List<Descritor> factoryListDescritores(Cursor cursor) {
+		Log.d(TAG, "factoryListDescritores() - ");
+		List<Descritor> descritores = new LinkedList<Descritor>();
+		if (cursor.moveToFirst()) {
+			do {
+				Descritor descritor = montaDescritor(cursor);
+				descritores.add(descritor);
+			} while (cursor.moveToNext());
+		}
+		return descritores;
 	}
 
 	/**
@@ -49,7 +72,9 @@ public class DescritorRepository {
 	 *  @param Descritor
 	 */
 	public void processaPoliticaCS(Descritor descritor) {
+		Log.d(TAG, "processaPoliticaCS() - descritor: "+descritor.toStringFull());
 		Cursor cursor = database.rawQuery("select count(*) from " + TabelaDescritor.nomeTabela, null);
+		
 		cursor.moveToFirst();
 		int count = cursor.getInt(0);
 		
@@ -58,7 +83,10 @@ public class DescritorRepository {
 		if (count <= COUNT_MAX_CS) {
 			salve(descritor);
 		} else {
-			removeDescritorComMenosAcessoMaisAntigo();
+			while (count > COUNT_MAX_CS) {
+				removeDescritorComMenosAcessoMaisAntigo();
+				count--;
+			}
 			salve(descritor);
 		}
 	}
@@ -70,26 +98,39 @@ public class DescritorRepository {
 	 * @author henrique
 	 */
 	private void removeDescritorComMenosAcessoMaisAntigo() {
-		
-		// TODO Quando remover um descritor remover tbm o 
-		// registro do arquivo no BD e deletar o file do device
-		
+		Log.d(TAG, "removedescritorComMenosAcessoMaisAntigo() - ");
 		String query = "select * from " + TabelaDescritor.nomeTabela +
-				" where " + TabelaDescritor.NUM_ACESSO.getCampo() + " = " +
-				" (select min(d."+TabelaDescritor.NUM_ACESSO.getCampo()+") from "+TabelaDescritor.nomeTabela+" d) " +
-				" and " + TabelaDescritor.DATA_ULTIMO_ACESSO.getCampo() + " = " +
-				" (select min(d."+TabelaDescritor.DATA_ULTIMO_ACESSO.getCampo()+") from "+TabelaDescritor.nomeTabela+" d) ";
+						" where " +TabelaDescritor.DATA_ULTIMO_ACESSO.getCampo()+ " = ( " +
+						"	select min( d1." +TabelaDescritor.DATA_ULTIMO_ACESSO.getCampo()+ " ) from " +TabelaDescritor.nomeTabela+ " d1 where d1." +TabelaDescritor._ID.getCampo()+ " in ( " +
+						"		select d2." +TabelaDescritor._ID.getCampo()+ " from " +TabelaDescritor.nomeTabela+ " d2" +
+						"		where d2." +TabelaDescritor.NUM_ACESSO.getCampo()+ " = ( select min( d3." +TabelaDescritor.NUM_ACESSO.getCampo()+ " ) from " +TabelaDescritor.nomeTabela+ " d3 ) " +
+						"		) )";
 		
-		Log.d(TAG, "query de politica: "+query);
+		Log.d(TAG, "removedescritorComMenosAcessoMaisAntigo() - query de politica: "+query);
 		
 		Cursor cursor = database.rawQuery(query, null);
-		Descritor descritorRemove = new Descritor();
+		Log.d(TAG, "removedescritorComMenosAcessoMaisAntigo() - cursor.getCount(): "+cursor.getCount()+" cursor.isClosed(): "+cursor.isClosed());
 		
+		Descritor descritorRemove = new Descritor();
 		if (cursor.moveToFirst()) {
 			descritorRemove = montaDescritor(cursor);
-			Log.d(TAG, "descritorRemove: "+descritorRemove);
-			delete(descritorRemove);
+			removeDescritor(descritorRemove);
 		}
+	}
+
+	/**
+	 * Remover um descritor e também o envia o registro para remoção do arquivo
+	 * relacionado a este descritor, caso exista.
+	 * 
+	 * @param cursor
+	 */
+	private void removeDescritor(Descritor descritor) {
+		Log.d(TAG, "removeDescritor() - descritor: "+descritor.toStringFull());
+		if(descritor.arquivo != null){
+			ArquivoRepository arquivoRepository = new ArquivoRepository(ctx);
+			arquivoRepository.removerArquivo(descritor.arquivo);
+		}
+		delete(descritor);
 	}
 
 	/**
@@ -100,6 +141,7 @@ public class DescritorRepository {
 	 * @return Descritor
 	 */
 	public Descritor findByIdDecs(String idDecs) {
+		Log.d(TAG, "findByIdDecs() - idDecs: "+idDecs);
 		Cursor cursor = database.query(true, TabelaDescritor.nomeTabela, TabelaDescritor.getAllColumns(), TabelaDescritor.ID_DECS.getCampo() + " = ? ", new String[] { idDecs }, null, null, null, null);
 		if (cursor.moveToFirst()) {
 			return montaDescritor(cursor);
@@ -115,6 +157,7 @@ public class DescritorRepository {
 	 * @return Lista de descritores
 	 */
 	public List<Descritor> findWithCacheSemantic(String palavraChave) {
+		Log.d(TAG, "findWithCacheSemantic() - palavraChave: "+palavraChave);
 		String query = "select * from " + TabelaDescritor.nomeTabela +
 				" where " + TabelaDescritor.DESCRITOR.getCampo() +" like ?" +
 				" or " + TabelaDescritor.DEFINICAO.getCampo() + " like ?" +
@@ -146,6 +189,8 @@ public class DescritorRepository {
 	}
 
 	private ContentValues getValues(Descritor descritor) {
+		Log.d(TAG, "getValues() - descritor: "+descritor.toStringFull());
+		
 		ContentValues values = new ContentValues();
 		values.put(TabelaDescritor._ID.getCampo(), descritor.id);
 		values.put(TabelaDescritor.ID_DECS.getCampo(), descritor.idDecs);
@@ -157,33 +202,10 @@ public class DescritorRepository {
 		values.put(TabelaDescritor.NUM_ACESSO.getCampo(), descritor.numAcesso);
 		values.put(TabelaDescritor.DATA_ULTIMO_ACESSO.getCampo(), new Date().getTime());
 		
-		// TODO verificar como checar se já existe o arquivo ou não ?????
-		if(descritor.arquivo.getId() == 0L){
+		if(descritor.arquivo != null){
 			values.put(TabelaDescritor.ARQUIVO_ID.getCampo(), descritor.arquivo.getId());
-		} else{
-			values.put(TabelaDescritor.ARQUIVO_ID.getCampo(), 0L );
 		}
 		return values;
 	}
 	
-	public List<Descritor> listar() {
-		Cursor cursor = database.query(TabelaDescritor.nomeTabela, TabelaDescritor.getAllColumns(), null, null, null, null, null);
-		return factoryListDescritores(cursor);
-	}
-
-	private void delete(Descritor descritorRemove) {
-		database.delete(TabelaDescritor.nomeTabela, TabelaDescritor._ID.getCampo() +" = ?", new String[] { descritorRemove.id.toString() });
-	}
-
-	private List<Descritor> factoryListDescritores(Cursor cursor) {
-		List<Descritor> descritores = new LinkedList<Descritor>();
-		if (cursor.moveToFirst()) {
-			do {
-				Descritor descritor = montaDescritor(cursor);
-				descritores.add(descritor);
-			} while (cursor.moveToNext());
-		}
-		return descritores;
-	}
-
 }

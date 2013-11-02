@@ -1,11 +1,6 @@
 package com.uem.searchmed.activities;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Date;
-
-import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -14,8 +9,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -27,6 +20,7 @@ import com.uem.searchmed.R;
 import com.uem.searchmed.app.Arquivo;
 import com.uem.searchmed.app.ArquivoRepository;
 import com.uem.searchmed.app.Descritor;
+import com.uem.searchmed.app.DescritorRepository;
 
 public class DescritorShowActivity extends Activity {
 
@@ -36,7 +30,7 @@ public class DescritorShowActivity extends Activity {
 	TextView definicao;
 	TextView dataUltimoAcesso;
 	private ProgressDialog pd;
-
+	
 	Descritor descritor = new Descritor();
 
 	@Override
@@ -124,7 +118,9 @@ public class DescritorShowActivity extends Activity {
 				if(arquivo != null){
 					ArquivoRepository arquivoRepository = new ArquivoRepository(DescritorShowActivity.this);
 					arquivoRepository.salvar(arquivo);
-					descritor.arquivo = arquivo;
+					
+					descritor.arquivo = arquivoRepository.findByUriFileAndTamanhoArquivo(arquivo.getUriFile(), arquivo.getTamanhoArquivo());
+					new DescritorRepository(DescritorShowActivity.this).update(descritor);
 				} 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -149,7 +145,6 @@ public class DescritorShowActivity extends Activity {
 	
 	private void showFile(File file) {
 		// TODO Arquivo está corrompido
-		// Verificar de file existe msm pq está dando nullpointer
 		Intent target = new Intent(Intent.ACTION_VIEW);
 		target.setDataAndType(Uri.fromFile(file), descritor.arquivo.getContentType());
 		target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
