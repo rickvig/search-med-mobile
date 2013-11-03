@@ -28,7 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 public class ConectHttp {
 
-    static final String TAG = "Conect_HTTP";
+    static final String TAG = "CONECT_HTTP";
 
     String url = "";
 
