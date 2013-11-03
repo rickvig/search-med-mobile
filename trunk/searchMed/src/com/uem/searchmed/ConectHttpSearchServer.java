@@ -22,7 +22,7 @@ import com.uem.searchmed.app.Arquivo;
 
 public class ConectHttpSearchServer {
 
-	static final String TAG = "Conect_HTTP_SearchServer";
+	static final String TAG = "CONECT_HTTP_SEARCH_SERVER";
 
 	String url = "";
 
@@ -44,7 +44,7 @@ public class ConectHttpSearchServer {
 	}
 
 	private Arquivo processJSON(String jsonStr) throws JSONException, IOException  {
-		Log.d(TAG, "JSON: \n" + jsonStr);
+		Log.d(TAG, "processJSON() - JSON: \n" + jsonStr);
 
 		/* Processa o JSON */
 		JSONTokener tokener = new JSONTokener(jsonStr);
@@ -56,17 +56,16 @@ public class ConectHttpSearchServer {
 			JSONObject jsonArquivo = jsonObject.getJSONObject("arquivo");
 			
 			Arquivo arquivo = new Arquivo(jsonArquivo.getString("contentType"), jsonArquivo.getString("nomeOriginal"), jsonArquivo.getInt("tamanhoArquivo"));
-			Log.d(TAG, "arquivo: "+arquivo);
+			Log.d(TAG, "processJSON() - arquivo: "+arquivo);
 			
-			Log.d(TAG, "ARRAY STR: \n"+jsonObject.getJSONArray("filebytes").join(","));
-			
+			Log.d(TAG, "processJSON() - ARRAY STR: \n"+jsonObject.getJSONArray("filebytes").join(","));
 			// TODO ARQUIVO ESTÁ CORROMPIDO
 			// ERRO: 11-02 15:33:58.389: W/System.err(15572): java.lang.IllegalArgumentException: bad base-64
 			byte[] fileBytes = Base64.decode(jsonObject.getJSONArray("filebytes").join(","), Base64.DEFAULT);
-			Log.d(TAG, "jsonFileBytes: "+ fileBytes.toString());
+			Log.d(TAG, "processJSON() - jsonFileBytes: "+ fileBytes.toString());
 			
-			// salvando o arquivo
-			Log.d(TAG, "pasta local: "+ Environment.getExternalStorageDirectory().getAbsolutePath().toString());
+			// armazenando o arquivo
+			Log.d(TAG, "processJSON() - pasta local: "+ Environment.getExternalStorageDirectory().getAbsolutePath().toString());
 			String path = Environment.getExternalStorageDirectory().getAbsolutePath() + SearchMedApp.PATH_FILE_DAFAULT + "/";
 			arquivo.setUriFile(path + arquivo.getNomeOriginal());
 			
