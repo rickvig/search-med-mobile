@@ -1,14 +1,8 @@
 package com.uem.searchmed.activities;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.xml.sax.SAXException;
 
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -35,7 +29,7 @@ public class DescritorListActivity extends ListActivity {
 
 	ProgressDialog pd;
 	public String palavraChave = "";
-	public ArrayList descritores;
+	public ArrayList<Descritor> descritores;
 	public ArrayAdapter<Descritor> adapter;
 
 	@Override
@@ -53,9 +47,14 @@ public class DescritorListActivity extends ListActivity {
 			palavraChave = bundle.getString("seachWord");
 
 			DescritorRepository repositorio = new DescritorRepository(this);
+			
+			long startTime = System.currentTimeMillis();
+			
 			List<Descritor> descritoresExistentes = repositorio.findWithCacheSemantic(palavraChave);
+			
+			Log.i(TAG, "Descritores existentes DEVICE, levou: " + (System.currentTimeMillis()-startTime) + " ms.");
 
-			Log.d(TAG, "Descritores existentes: " + descritoresExistentes.toString());
+			Log.d(TAG, "Descritores existentes: " + descritores.size() + ", descritores" + descritoresExistentes.toString());
 			descritores.addAll(descritoresExistentes);
 		}
 		handleList();
@@ -131,12 +130,14 @@ public class DescritorListActivity extends ListActivity {
 		protected ArrayList doInBackground(Object... objects) {
 			String url = "http://decs.bvsalud.org/cgi-bin/mx/cgi=@vmx/decs/?words=" + palavraChave;
 			ConectHttp connect = new ConectHttp(url);
+			long startTime = System.currentTimeMillis();
 			try {
 				descritores.clear();
 				descritores.addAll(connect.executar());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			Log.i(TAG, "Descritores WEB-SERVICE, levou: " + (System.currentTimeMillis()-startTime) + " ms.");
 			return null;
 		}
 
@@ -144,7 +145,7 @@ public class DescritorListActivity extends ListActivity {
 		protected void onPostExecute(Object o) {
 			super.onPostExecute(o);
 			dismissDialog(999);
-			Log.d(TAG, "Descritores web-service: " + descritores.toString());
+			Log.d(TAG, "Descritores WEB-SERVICE: "+ descritores.size() + ", descritores:" + descritores.toString());
 			adapter = new ArrayAdapter<Descritor>(DescritorListActivity.this, android.R.layout.simple_list_item_1, descritores);
 			setListAdapter(adapter);
 		}

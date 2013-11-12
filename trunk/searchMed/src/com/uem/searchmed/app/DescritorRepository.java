@@ -36,7 +36,9 @@ public class DescritorRepository {
 	
 	public void update(Descritor descritor) {
 		Log.d(TAG, "update() - descritor: "+descritor.toStringFull());
-		database.update(TabelaDescritor.nomeTabela, getValues(descritor), TabelaDescritor._ID.getCampo() + " = ?", new String[] { Long.toString(descritor.id) });
+		if(descritor.id != null){
+			database.update(TabelaDescritor.nomeTabela, getValues(descritor), TabelaDescritor._ID.getCampo() + " = ?", new String[] { Long.toString(descritor.id) });
+		}
 	}
 	
 	private void delete(Descritor descritor) {

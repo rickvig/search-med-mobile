@@ -67,11 +67,16 @@ public class DescritorShowActivity extends Activity {
 	 */
 	public void buscaArquivo(View view) {
 		if (descritor.arquivo != null) {
-			// busca no divice
+			// busca no device
 			try {
+				long startTime = System.currentTimeMillis();
+				
+				Log.d(TAG, "chamou DEVICE, uriFile: " + descritor.arquivo.getUriFile());
 				File file = new File(descritor.arquivo.getUriFile());
-				Log.d(TAG, "chamou o file pelo divice, uriFile: "+descritor.arquivo.getUriFile());
 				showFile(file);
+				
+				Log.i(TAG, "chamou DEVICE, tamanho do file: " + descritor.arquivo.getTamanhoArquivo() + "bytes.");
+				Log.i(TAG, "chamou DEVICE, levou: " + (System.currentTimeMillis()-startTime) + " ms.");
 			} catch (Exception e) {
 				e.printStackTrace();
 				Toast.makeText(this, R.string.fail_on_get_file, Toast.LENGTH_LONG).show();
@@ -107,11 +112,14 @@ public class DescritorShowActivity extends Activity {
 
 		@Override
 		protected Object doInBackground(Object... objects) {
-			Log.d(TAG, "execute...");
+			long startTime = System.currentTimeMillis();
+			
+			Log.d(TAG, "chamou WEB-SERVICE");
+			
 			String id = descritor.idDecs.replace('.', '_');
 			// HOME:
 			String url = "http://192.168.1.10:8080/searchMedServer/arquivo/getArquivo/" + id + ".json";
-			//String url = "http://10.253.28.105:8080/searchMedServer/arquivo/getArquivo/" + id + ".json";
+			//String url = "http://10.253.29.20:8080/searchMedServer/arquivo/getArquivo/" + id + ".json";
 			ConectHttpSearchServer connect = new ConectHttpSearchServer(url);
 			try {
 				Arquivo arquivo = connect.executar();
@@ -125,6 +133,9 @@ public class DescritorShowActivity extends Activity {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+			Log.i(TAG, "chamou WEB-SERVICE, levou: " + (System.currentTimeMillis()-startTime) + " ms.");
+			
 			return null;
 		}
 
@@ -132,10 +143,9 @@ public class DescritorShowActivity extends Activity {
 		protected void onPostExecute(Object o) {
 			super.onPostExecute(o);
 			try {
-				// mostra o arquivo
 				File file = new File(descritor.arquivo.getUriFile());
-				Log.d(TAG, "chamou o file pelo web-service, uriFile: "+descritor.arquivo.getUriFile());
 				showFile(file);
+				Log.i(TAG, "chamou WEB-SERVICE, tamanho do file: " + descritor.arquivo.getTamanhoArquivo() + "bytes.");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -144,7 +154,6 @@ public class DescritorShowActivity extends Activity {
 	}
 	
 	private void showFile(File file) {
-		// TODO Arquivo está corrompido
 		Intent target = new Intent(Intent.ACTION_VIEW);
 		target.setDataAndType(Uri.fromFile(file), descritor.arquivo.getContentType());
 		target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
