@@ -9,11 +9,11 @@ import com.google.common.base.Joiner;
 
 public enum TabelaArquivo {
 
-	_ID("id", "integer", "primary key autoincrement")
-	, CONTENT_TYPE("contentType", "text", "not null")
-	, NOME_ORIGINAL("nomeOriginal", "text", "")
-	, TAMANHO_ARQUIVO("tamanhoArquivo", "interger", "")
-	, URI_FILE("uriFile", "text", "");
+	_ID("ID", "integer", "primary key autoincrement")
+	, CONTENT_TYPE("CONTENT_TYPE", "text", "not null")
+	, NOME_ORIGINAL("NOME_ORIGINAL", "text", "")
+	, TAMANHO_ARQUIVO("TAMANHO_ARQUIVO", "interger", "")
+	, URI_FILE("URI_FILE", "text", "");
 
 	public static String nomeTabela = "arquivo";
 

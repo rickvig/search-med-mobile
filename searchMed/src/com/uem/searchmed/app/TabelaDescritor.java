@@ -11,16 +11,16 @@ import com.google.common.base.Joiner;
 
 public enum TabelaDescritor {
 
-	_ID("id", "integer", "primary key autoincrement")
-	, ID_DECS("idDecs", "text", "not null")
-	, TERMOS_RELACIONADOS("termosRelacionados", "text", "")
-	, DEFINICAO("definicao", "text", "")
-	, DESCRITOR("descritor", "text", "")
-	, SINONIMOS("sinonimos", "text", "")
-	, INDICES_ANOTACOES("indicesAnotacoes", "text", "")
-	, NUM_ACESSO("numAcesso", "interger", "")
-	, DATA_ULTIMO_ACESSO("dataUltimoAcesso", "interger", "")
-	, ARQUIVO_ID("arquivoId", "integer", "");
+	_ID("ID", "integer", "primary key autoincrement")
+	, ID_DECS("ID_DECS", "text", "not null")
+	, TERMOS_RELACIONADOS("TERMOS_RELACIONADOS", "text", "")
+	, DEFINICAO("DEFINICAO", "text", "")
+	, DESCRITOR("DESCRITOR", "text", "")
+	, SINONIMOS("SINONIMOS", "text", "")
+	, INDICES_ANOTACOES("INDICES_ANOTACOES", "text", "")
+	, NUM_ACESSO("NUM_ACESSO", "interger", "")
+	, DATA_ULTIMO_ACESSO("DATA_ULTIMO_ACESSO", "interger", "")
+	, ARQUIVO_ID("ARQUIVO_ID", "integer", "");
 
 	public static String nomeTabela = "descritor";
 
