@@ -117,9 +117,7 @@ public class DescritorShowActivity extends Activity {
 			Log.d(TAG, "chamou WEB-SERVICE");
 			
 			String id = descritor.idDecs.replace('.', '_');
-			// HOME:
-			String url = "http://192.168.1.10:8080/searchMedServer/arquivo/getArquivo/" + id + ".json";
-			//String url = "http://10.253.29.20:8080/searchMedServer/arquivo/getArquivo/" + id + ".json";
+			String url = "http://searchmedserver.no-ip.org/searchmed/arquivo/getArquivo/" + id + ".json";
 			ConectHttpSearchServer connect = new ConectHttpSearchServer(url);
 			try {
 				Arquivo arquivo = connect.executar();
