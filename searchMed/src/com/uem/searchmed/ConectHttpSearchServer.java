@@ -59,15 +59,8 @@ public class ConectHttpSearchServer {
 			Arquivo arquivo = new Arquivo(jsonArquivo.getString("contentType"), jsonArquivo.getString("nomeOriginal"), jsonArquivo.getInt("tamanhoArquivo"));
 			Log.d(TAG, "processJSON() - arquivo: "+arquivo);
 			
-			Log.d(TAG, "processJSON() - ARRAY STR: \n"+jsonObject.getJSONArray("filebytes").join(","));
-			// TODO ARQUIVO ESTÁ CORROMPIDO
-			// ERRO: 11-02 15:33:58.389: W/System.err(15572): java.lang.IllegalArgumentException: bad base-64
-			//byte[] fileBytes = Base64.decode(jsonObject.getJSONArray("filebytes").join(","), Base64.DEFAULT);
 			Gson gson = new Gson();
 			byte[] fileBytes = gson.fromJson(jsonObject.getJSONArray("filebytes").toString(), byte[].class);
-			
-			
-			Log.d(TAG, "processJSON() - jsonFileBytes: "+ fileBytes.toString());
 			
 			// armazenando o arquivo
 			Log.d(TAG, "processJSON() - pasta local: "+ Environment.getExternalStorageDirectory().getAbsolutePath().toString());

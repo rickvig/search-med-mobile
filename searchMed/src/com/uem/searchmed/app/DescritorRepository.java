@@ -15,7 +15,7 @@ import com.uem.searchmed.SearchMedApp;
 public class DescritorRepository {
 
 	private static String TAG = "DESCRITOR_REPOSITORY";
-	private static Integer COUNT_MAX_CS = 10;
+	private static Integer COUNT_MAX_CS = 9;
 	protected Context ctx;
 	protected SQLiteDatabase database;
 
