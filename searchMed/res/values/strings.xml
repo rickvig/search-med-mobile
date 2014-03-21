@@ -18,5 +18,6 @@
     <string name="fail_on_get_file">Falha ao busar Arquivo.</string>
     <string name="fail_on_get_descritor">Falha ao busar descritor.</string>
     <string name="action_avaliar_descritor">Avaliar Descritor</string>
+    <string name="arquivos">Arquivos</string>
 
 </resources>
