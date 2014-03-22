@@ -64,8 +64,9 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="com.uem.searchmed.activities.DescritorShowActivity.Executa" project="searchMed" 
-    file="/searchMed/src/com/uem/searchmed/activities/DescritorShowActivity.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="com.uem.searchmed.activities.DescritorShowActivity.ExecutaBuscaArquivo" 
+    project="searchMed" file="/searchMed/src/com/uem/searchmed/activities/DescritorShowActivity.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="919" y="1085"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
@@ -91,8 +92,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="com.uem.searchmed.ConectHttpSearchServer" project="searchMed" 
-    file="/searchMed/src/com/uem/searchmed/ConectHttpSearchServer.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="11" language="java" name="com.uem.searchmed.webservice.ConectHttpSearchServer" project="searchMed" 
+    file="/searchMed/src/com/uem/searchmed/webservice/ConectHttpSearchServer.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="972" y="1607"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
@@ -100,8 +101,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="com.uem.searchmed.HttpClientFactory" project="searchMed" 
-    file="/searchMed/src/com/uem/searchmed/HttpClientFactory.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="12" language="java" name="com.uem.searchmed.webservice.HttpClientFactory" project="searchMed" 
+    file="/searchMed/src/com/uem/searchmed/webservice/HttpClientFactory.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1553" y="1618"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
@@ -109,8 +110,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="com.uem.searchmed.ConectHttp" project="searchMed" 
-    file="/searchMed/src/com/uem/searchmed/ConectHttp.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="13" language="java" name="com.uem.searchmed.webservice.ConectHttp" project="searchMed" 
+    file="/searchMed/src/com/uem/searchmed/webservice/ConectHttp.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1753" y="1324"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" accessors="true" 
       visibility="true">      
