@@ -87,6 +87,6 @@
         android:layout_marginBottom="5dp"
         android:gravity="center"
         android:onClick="buscaArquivo"
-        android:text="@string/arquivo" />
+        android:text="@string/arquivos" />
 
 </RelativeLayout>
